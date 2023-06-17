@@ -5,13 +5,12 @@ import org.springframework.stereotype.Component;
 import org.web3j.crypto.Credentials;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.methods.response.EthBlockNumber;
-import org.web3j.protocol.core.methods.response.EthGasPrice;
 
 import java.io.IOException;
+import java.math.BigInteger;
 
 @Component
 public class EthereumService {
-
     private final Web3j web3j;
     private final Credentials credentials;
 
@@ -21,13 +20,15 @@ public class EthereumService {
         this.credentials = credentials;
     }
 
-    public String getLatestBlockNumber() throws IOException {
-        EthBlockNumber blockNumber = web3j.ethBlockNumber().send();
-        return blockNumber.getBlockNumber().toString();
+    public BigInteger getLatestBlockNumber() throws IOException {
+        BigInteger blockNumber = web3j.ethGasPrice().send().getGasPrice();
+        return blockNumber;
     }
 
 
     public Credentials getCredentials() {
         return credentials;
     }
+
+
 }
