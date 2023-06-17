@@ -14,7 +14,7 @@ import java.math.BigInteger;
 @Configuration
 public class Web3Config {
 
-    private static final String CONTRACT_ADDRESS = "0x17154b7D44f77e817EAEF2998C1a910d2ca3b87F";
+    public static final String CONTRACT_ADDRESS = "0x17154b7D44f77e817EAEF2998C1a910d2ca3b87F";
 
     @Bean
     public Web3j web3j() {

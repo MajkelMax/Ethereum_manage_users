@@ -1,8 +1,6 @@
 package com.ethereum.manageusers.dto;
-import org.apache.commons.lang3.StringUtils;
 
-import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
+import org.apache.commons.lang3.StringUtils;
 
 public class EmployeeDTO {
     private String firstName;

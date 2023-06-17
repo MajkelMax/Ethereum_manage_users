@@ -61,36 +61,14 @@ public class EthereumController {
         }
     }
 
-    @GetMapping("/employee/{index}")
-    public ResponseEntity<EmployeeDTO> getEmployee(@PathVariable("index") int index) {
-        try {
-            RemoteCall<Tuple3<String, String, String>> remoteCall = employeeContract.getEmployee(BigInteger.valueOf(index));
-            Tuple3<String, String, String> result = remoteCall.send();
 
-            EmployeeDTO employeeDTO = new EmployeeDTO(result.component1(), result.component2(), result.component3());
-            return ResponseEntity.ok(employeeDTO);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(null);
-        }
+
+    @GetMapping("/{index}")
+    public EmployeeDTO getEmployee(@PathVariable BigInteger index) throws Exception {
+        RemoteCall<EmployeeDTO> remoteCall = employeeContract.getEmployee(index);
+        return remoteCall.send();
     }
 
-//    @GetMapping("/get")
-//    public BigInteger getContractBalance() throws Exception {
-//        return counter.getValue().send();
-//    }
-//
-//    @GetMapping("/increase/{value}")
-//    public ResponseEntity<String> increaseCounterValue(@PathVariable int value) throws Exception {
-//        counter.increaseBy(value).send();
-//        return ResponseEntity.ok("Counter value increased by " + value + "<br>" + "Current value is " + getContractBalance());
-//    }
-//
-//    @GetMapping("/decrease/{value}")
-//    public ResponseEntity<String> decreaseCounterValue(@PathVariable int value) throws Exception {
-//        counter.decrease(value).send();
-//        return ResponseEntity.ok("Counter value decreased by " + value + "<br>" + "Current value is " + getContractBalance());
-//    }
 
 
 }
