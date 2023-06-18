@@ -7,12 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.web3j.abi.datatypes.generated.Uint256;
 import org.web3j.protocol.core.RemoteCall;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
-import org.web3j.tuples.generated.Tuple3;
 
 import java.math.BigInteger;
+import java.util.List;
 
 @RestController
 public class EthereumController {
@@ -27,18 +26,13 @@ public class EthereumController {
         this.employeeContract = employeeContract;
     }
 
-    @GetMapping("/")
-    public String getBalance() {
-        String address = ethereumService.getCredentials().getAddress();
-        return address;
-    }
-    @GetMapping("/count")
+    @GetMapping("employee/count")
     public BigInteger getEmployeesCount() throws Exception {
 
         return employeeContract.getEmployeesCount().send();
     }
 
-    @PostMapping("/add")
+    @PostMapping("/employee")
     public ResponseEntity<String> addEmployee(@RequestBody EmployeeDTO employeeDTO) {
         try {
             RemoteCall<TransactionReceipt> remoteCall = employeeContract.addEmployee(
@@ -48,7 +42,6 @@ public class EthereumController {
             );
             TransactionReceipt transactionReceipt = remoteCall.send();
 
-            // Sprawdź status transakcji i zwróć odpowiednią odpowiedź HTTP
             if (transactionReceipt.isStatusOK()) {
                 return ResponseEntity.ok("Employee added successfully");
             } else {
@@ -63,12 +56,17 @@ public class EthereumController {
 
 
 
-    @GetMapping("/{index}")
+    @GetMapping("employee/{index}")
     public EmployeeDTO getEmployee(@PathVariable BigInteger index) throws Exception {
         RemoteCall<EmployeeDTO> remoteCall = employeeContract.getEmployee(index);
         return remoteCall.send();
     }
 
+    @GetMapping("/employee") // Time complexity is O = n, I do not recommend if for some big data
+    public List<EmployeeDTO> getEmployeeList() throws Exception {
+        List<EmployeeDTO> remoteCall = employeeContract.getEmployeeList();
+        return remoteCall;
+    }
 
 
 }
